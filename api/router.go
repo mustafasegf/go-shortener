@@ -17,8 +17,11 @@ func (s *Server) setupRouter() {
 	linkSvc := service.NewLinkService(linkRepo)
 	linkCtlr := controller.NewLinkController(linkSvc)
 
+	s.router.GET("/:url", linkCtlr.Redirect)
+
 	api := s.router.Group("/api")
 	link := api.Group("/link")
 
 	link.POST("create", linkCtlr.CreateLink)
+	
 }

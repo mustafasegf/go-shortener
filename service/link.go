@@ -6,7 +6,6 @@ import (
 	"github.com/mustafasegf/go-shortener/repository"
 )
 
-
 type Link struct {
 	repo *repository.Link
 }
@@ -17,12 +16,13 @@ func NewLinkService(repo *repository.Link) *Link {
 	}
 }
 
-func (s *Link) GetLinkByURL(shortUrl string) (entity entity.LinkModel, err error) {
+func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, err error) {
 	data, err := s.repo.GetLinkByURL(shortUrl)
 	if err != nil {
 		return
 	}
-	err = copier.Copy(entity, data)
+	result = &entity.CreateLinkRequest{}
+	err = copier.Copy(&result, data)
 
 	return
 }

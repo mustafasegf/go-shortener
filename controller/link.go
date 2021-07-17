@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -31,7 +30,6 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 	}
 
 	_, err = ctrl.svc.GetLinkByURL(req.ShortUrl)
-	fmt.Printf(">>>>> %#v k\n", err)
 	if err == nil {
 		ctx.IndentedJSON(http.StatusConflict, entity.Message("Short Url Exist"))
 		return
@@ -39,7 +37,7 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusInternalServerError, entity.Message(err.Error()))
 		log.Print(err.Error())
 		return
-	} 
+	}
 
 	err = ctrl.svc.InsertURL(req)
 	if err != nil {
@@ -49,5 +47,26 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 	}
 
 	ctx.Status(http.StatusOK)
+	return
+}
+
+func (ctrl *Link) Redirect(ctx *gin.Context) {
+	shortUrl := ctx.Param("url")
+	if shortUrl == "" {
+		ctx.Redirect(http.StatusNotFound, "/")
+		return
+	}
+
+	data, err := ctrl.svc.GetLinkByURL(shortUrl)
+	if err == gorm.ErrRecordNotFound {
+		ctx.Redirect(http.StatusTemporaryRedirect, "/")
+		return
+	} else if err != nil {
+		ctx.Redirect(http.StatusTemporaryRedirect, "/")
+		log.Print(err.Error())
+		return
+	}
+
+	ctx.Redirect(http.StatusFound, data.LongUrl)
 	return
 }

@@ -16,7 +16,7 @@ func NewLinkRepo(db *gorm.DB) *Link {
 	}
 }
 
-func (r *Link) GetLinkByURL(ShortUrl string) (entity entity.CreateLinkRequest, err error) {
+func (r *Link) GetLinkByURL(ShortUrl string) (entity entity.LinkModel, err error) {
 	query := r.Db.Table("link").
 		Where("short_url = ?", ShortUrl).
 		First(&entity)

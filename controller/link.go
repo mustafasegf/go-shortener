@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/mustafasegf/go-shortener/entity"
@@ -19,7 +21,10 @@ func NewLinkController(svc *service.Link) *Link {
 
 func (ctrl *Link) CreateLink(ctx *gin.Context) {
 	req := entity.CreateLinkRequest{}
-	ctx.ShouldBindBodyWith(req, binding.JSON)
-
-	
+	err := ctx.ShouldBindBodyWith(&req, binding.JSON)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, entity.Message(err.Error()))
+		return
+	}
+	ctrl.svc
 }

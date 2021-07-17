@@ -10,6 +10,11 @@ import (
 )
 
 func main() {
+	err := util.SetLogger()
+	if err != nil {
+		log.Fatal("cannot set logger: ", err)
+	}
+
 	config, err := util.LoadConfig()
 	if err != nil {
 		log.Fatal("cannot load config:", err)

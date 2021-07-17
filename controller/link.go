@@ -1,12 +1,15 @@
 package controller
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/mustafasegf/go-shortener/entity"
 	"github.com/mustafasegf/go-shortener/service"
+	"gorm.io/gorm"
 )
 
 type Link struct {
@@ -26,5 +29,25 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 		ctx.IndentedJSON(http.StatusBadRequest, entity.Message(err.Error()))
 		return
 	}
-	ctrl.svc
+
+	_, err = ctrl.svc.GetLinkByURL(req.ShortUrl)
+	fmt.Printf(">>>>> %#v k\n", err)
+	if err == nil {
+		ctx.IndentedJSON(http.StatusConflict, entity.Message("Short Url Exist"))
+		return
+	} else if err != gorm.ErrRecordNotFound {
+		ctx.IndentedJSON(http.StatusInternalServerError, entity.Message(err.Error()))
+		log.Print(err.Error())
+		return
+	} 
+
+	err = ctrl.svc.InsertURL(req)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusInternalServerError, entity.Message(err.Error()))
+		log.Print(err.Error())
+		return
+	}
+
+	ctx.Status(http.StatusOK)
+	return
 }

@@ -7,7 +7,10 @@ import (
 )
 
 func SetLogger() (err error) {
-	logFile, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
+	if _, err := os.Stat("log"); os.IsNotExist(err) {
+		os.Mkdir("log", os.ModeDir)
+	}
+	logFile, err := os.OpenFile("log/log.txt", os.O_CREATE|os.O_APPEND|os.O_RDWR, 0666)
 	if err != nil {
 		return
 	}

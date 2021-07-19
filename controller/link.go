@@ -65,7 +65,7 @@ func (ctrl *Link) Redirect(ctx *gin.Context) {
 		ctx.Redirect(http.StatusTemporaryRedirect, "/")
 		log.Print(err.Error())
 		return
-	}
+	} 
 
 	ctx.Redirect(http.StatusFound, data.LongUrl)
 	return

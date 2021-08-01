@@ -1,8 +1,10 @@
 package service
 
 import (
+	"log"
 	"net/url"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/jinzhu/copier"
 	"github.com/mustafasegf/go-shortener/entity"
 	"github.com/mustafasegf/go-shortener/repository"
@@ -19,11 +21,23 @@ func NewLinkService(repo *repository.Link) *Link {
 }
 
 func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, err error) {
+	result = &entity.CreateLinkRequest{}
+	longURL, err := s.repo.RedisGetLinkByURL(shortUrl)
+	if err != redis.Nil {
+		result.LongUrl = longURL
+		result.ShortUrl = shortUrl
+		err = nil
+		return
+	}
 	data, err := s.repo.GetLinkByURL(shortUrl)
 	if err != nil {
 		return
 	}
-	result = &entity.CreateLinkRequest{}
+	err = s.repo.RedisSetURL(shortUrl, data.LongUrl)
+	if err != redis.Nil {
+		log.Print(err)
+		err = nil
+	}
 	err = copier.Copy(&result, data)
 
 	return
@@ -31,6 +45,7 @@ func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, 
 
 func (s *Link) InsertURL(req entity.CreateLinkRequest) (err error) {
 	err = s.repo.InsertURL(req.ShortUrl, req.LongUrl)
+	s.repo.RedisSetURL(req.ShortUrl, req.LongUrl)
 	return
 }
 

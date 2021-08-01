@@ -16,7 +16,7 @@ func (s *Server) setupRouter() {
 	s.router.LoadHTMLGlob("templates/*")
 	s.router.Static("/static", "./static")
 
-	linkRepo := repository.NewLinkRepo(s.db)
+	linkRepo := repository.NewLinkRepo(s.db, s.rdb)
 	linkSvc := service.NewLinkService(linkRepo)
 	linkCtlr := controller.NewLinkController(linkSvc)
 

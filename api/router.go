@@ -12,7 +12,6 @@ type Route struct {
 }
 
 func (s *Server) setupRouter() {
-
 	s.router.LoadHTMLGlob("templates/*")
 	s.router.Static("/static", "./static")
 

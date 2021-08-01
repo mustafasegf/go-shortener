@@ -21,9 +21,9 @@ func NewLinkService(repo *repository.Link) *Link {
 }
 
 func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, err error) {
-	result = &entity.CreateLinkRequest{}
 	longURL, err := s.repo.RedisGetLinkByURL(shortUrl)
 	if err != redis.Nil {
+		result = &entity.CreateLinkRequest{}
 		result.LongUrl = longURL
 		result.ShortUrl = shortUrl
 		err = nil
@@ -38,6 +38,7 @@ func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, 
 		log.Print(err)
 		err = nil
 	}
+	result = &entity.CreateLinkRequest{}
 	err = copier.Copy(&result, data)
 
 	return

@@ -10,8 +10,10 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "${DB_PORT}:5432"
+    ports: 
+      - "5432:5432"
+    networks:
+      - shortener
 
   redis:
     container_name: shortener-redis
@@ -20,8 +22,10 @@ services:
     restart: always
     environment:
       - PASSWORD=${REDIS_PASSWORD}
-    ports:
-      - "${REDIS_PORT}:6379"
+    ports: 
+      - "6379:6379"
+    networks:
+      - shortener
 
   server:
     container_name: server-go-shortener
@@ -29,12 +33,21 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "${SERVER_PORT}:8080"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     depends_on:
       - db
       - redis
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    networks:
+      - shortener
     command: ["/app/main"]
 
 volumes:
   db-data:
     driver: local
+
+networks:
+  shortener:
+    driver: bridge

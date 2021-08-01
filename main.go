@@ -28,9 +28,9 @@ func main() {
 	if err != nil {
 		log.Fatal("canot load db: ", err)
 	}
-	
+
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("localhost:%s", config.RedisPort),
+		Addr:     fmt.Sprintf("%s:%s", config.RedisHost, config.RedisPort),
 		Password: config.RedisPassword,
 		DB:       0,
 	})

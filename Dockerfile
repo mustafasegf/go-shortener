@@ -10,6 +10,8 @@ FROM alpine:3.13
 WORKDIR /app
 COPY --from=builder /build/main .
 COPY .env .
+COPY templates templates
+COPY static static
 
 EXPOSE 8081
 CMD [ "/app/main" ]

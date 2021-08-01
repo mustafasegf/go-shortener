@@ -12,9 +12,11 @@ type Config struct {
 	DBPassword    string `mapstructure:"DB_PASSWORD"`
 	DBName        string `mapstructure:"DB_NAME"`
 	DBPort        string `mapstructure:"DB_PORT"`
+	DBHost        string `mapstructure:"DB_HOST"`
 	DBDsn         string
 	RedisPort     string `mapstructure:"REDIS_PORT"`
 	RedisPassword string `mapstructure:"REDIS_PASSWORD"`
+	RedisHost     string `mapstructure:"REDIS_HOST"`
 }
 
 func LoadConfig() (config Config, err error) {
@@ -25,7 +27,7 @@ func LoadConfig() (config Config, err error) {
 	err = viper.ReadInConfig()
 	if err != nil {
 		return
-	} 
+	}
 
 	err = viper.Unmarshal(&config)
 	config.makeDbConfig()
@@ -34,6 +36,6 @@ func LoadConfig() (config Config, err error) {
 }
 
 func (c *Config) makeDbConfig() {
-	dsn := fmt.Sprintf("host=localhost user=%s password=%s dbname=%s port=%s sslmode=disable", c.DBUser, c.DBPassword, c.DBName, c.DBPort)
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", c.DBHost, c.DBUser, c.DBPassword, c.DBName, c.DBPort)
 	c.DBDsn = dsn
 }

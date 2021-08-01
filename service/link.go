@@ -3,6 +3,7 @@ package service
 import (
 	"log"
 	"net/url"
+	"strings"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/jinzhu/copier"
@@ -51,9 +52,17 @@ func (s *Link) InsertURL(req entity.CreateLinkRequest) (err error) {
 }
 
 func (s *Link) CheckURL(longUrl string) bool {
-	if longUrl == "http://" {
+	lowLongURL := strings.ToLower(longUrl)
+	containUrl := strings.HasPrefix(lowLongURL, "https://mustafasegf.com") ||
+		strings.HasPrefix(lowLongURL, "http://mustafasegf.com") ||
+		strings.HasPrefix(lowLongURL, "https://www.mustafasegf.com") ||
+		strings.HasPrefix(lowLongURL, "http://www.mustafasegf.com") ||
+		lowLongURL == "http://"
+
+	if containUrl {
 		return false
 	}
+
 	_, err := url.ParseRequestURI(longUrl)
 	if err != nil {
 		return false

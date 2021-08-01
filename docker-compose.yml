@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   db:
     container_name: shortener-db
@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: ${DB_NAME}
     ports:
       - "${DB_PORT}:5432"
-  
+
   redis:
     container_name: shortener-redis
     image: redis:6.2.4-alpine
@@ -21,7 +21,19 @@ services:
     environment:
       - PASSWORD=${REDIS_PASSWORD}
     ports:
-      - '${REDIS_PORT}:6379'
+      - "${REDIS_PORT}:6379"
+
+  server:
+    container_name: server-go-shortener
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - redis
+    command: ["/app/main"]
 
 volumes:
   db-data:

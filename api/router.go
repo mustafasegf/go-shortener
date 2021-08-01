@@ -13,15 +13,21 @@ type Route struct {
 
 func (s *Server) setupRouter() {
 
+	s.router.LoadHTMLGlob("templates/*")
+	s.router.Static("/static", "./static")
+
 	linkRepo := repository.NewLinkRepo(s.db)
 	linkSvc := service.NewLinkService(linkRepo)
 	linkCtlr := controller.NewLinkController(linkSvc)
 
+	staticCtlr := controller.NewStaticController()
+
 	s.router.GET("/:url", linkCtlr.Redirect)
+	s.router.GET("/", staticCtlr.Index)
 
 	api := s.router.Group("/api")
 	link := api.Group("/link")
 
 	link.POST("create", linkCtlr.CreateLink)
-	
+
 }

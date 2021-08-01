@@ -29,6 +29,12 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 		return
 	}
 
+	valid := ctrl.svc.CheckURL(req.LongUrl)
+	if !valid{
+		ctx.IndentedJSON(http.StatusBadRequest, entity.Message("Not valid URL"))
+		return
+	}
+
 	_, err = ctrl.svc.GetLinkByURL(req.ShortUrl)
 	if err == nil {
 		ctx.IndentedJSON(http.StatusConflict, entity.Message("Short Url Exist"))
@@ -46,7 +52,7 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 		return
 	}
 
-	ctx.Status(http.StatusOK)
+	ctx.IndentedJSON(http.StatusOK, entity.Message("Success"))
 	return
 }
 

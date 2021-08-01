@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Go Shotener</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="static/style.css" />
+    <link rel="shortcut icon" type="image/jpg" href="static/favicon.ico"/>
+    <script src="static/script.js"></script>
+  </head>
+  <body>
+    <div id="experience">
+      <div class="content">
+        <div class="align-center space">
+          <h1>Simple Url Shortener</h1>
+          <p>
+            please don't use this for production, this only suffice as fun project 
+          </p>
+          <form action="" id="form" method="POST" onsubmit="addUrl(event);">
+            <label for="long_url">Long url</label>
+            <input type="text" name="long_url" />
+            <label for="short_url">Short url</label>
+            <input type="text" name="short_url" />
+            <input type="submit" name="submit" />
+          </form>
+          <h5 id="status"></h5>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

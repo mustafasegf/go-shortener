@@ -1,4 +1,4 @@
-package service
+package links
 
 import (
 	"log"
@@ -8,20 +8,19 @@ import (
 	"github.com/go-redis/redis/v8"
 	"github.com/jinzhu/copier"
 	"github.com/mustafasegf/go-shortener/entity"
-	"github.com/mustafasegf/go-shortener/repository"
 )
 
-type Link struct {
-	repo *repository.Link
+type Service struct {
+	repo *Repo
 }
 
-func NewLinkService(repo *repository.Link) *Link {
-	return &Link{
+func NewService(repo *Repo) *Service {
+	return &Service{
 		repo: repo,
 	}
 }
 
-func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, err error) {
+func (s *Service) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, err error) {
 	longURL, err := s.repo.RedisGetLinkByURL(shortUrl)
 	if err != redis.Nil {
 		result = &entity.CreateLinkRequest{}
@@ -45,13 +44,13 @@ func (s *Link) GetLinkByURL(shortUrl string) (result *entity.CreateLinkRequest, 
 	return
 }
 
-func (s *Link) InsertURL(req entity.CreateLinkRequest) (err error) {
+func (s *Service) InsertURL(req entity.CreateLinkRequest) (err error) {
 	err = s.repo.InsertURL(req.ShortUrl, req.LongUrl)
 	s.repo.RedisSetURL(req.ShortUrl, req.LongUrl)
 	return
 }
 
-func (s *Link) CheckURL(longUrl string) bool {
+func (s *Service) CheckURL(longUrl string) bool {
 	lowLongURL := strings.ToLower(longUrl)
 	containUrl := strings.HasPrefix(lowLongURL, "https://mustafasegf.com") ||
 		strings.HasPrefix(lowLongURL, "http://mustafasegf.com") ||

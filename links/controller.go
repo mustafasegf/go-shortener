@@ -1,4 +1,4 @@
-package controller
+package links
 
 import (
 	"log"
@@ -7,21 +7,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/mustafasegf/go-shortener/entity"
-	"github.com/mustafasegf/go-shortener/service"
 	"gorm.io/gorm"
 )
 
-type Link struct {
-	svc *service.Link
+type Controller struct {
+	svc *Service
 }
 
-func NewLinkController(svc *service.Link) *Link {
-	return &Link{
+func NewController(svc *Service) *Controller {
+	return &Controller{
 		svc: svc,
 	}
 }
 
-func (ctrl *Link) CreateLink(ctx *gin.Context) {
+func (ctrl *Controller) CreateLink(ctx *gin.Context) {
 	req := entity.CreateLinkRequest{}
 	err := ctx.ShouldBindBodyWith(&req, binding.JSON)
 	if err != nil {
@@ -55,7 +54,7 @@ func (ctrl *Link) CreateLink(ctx *gin.Context) {
 	return
 }
 
-func (ctrl *Link) Redirect(ctx *gin.Context) {
+func (ctrl *Controller) Redirect(ctx *gin.Context) {
 	shortUrl := ctx.Param("url")
 	if shortUrl == "" {
 		ctx.Redirect(http.StatusNotFound, "/")

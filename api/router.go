@@ -1,10 +1,10 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	"github.com/mustafasegf/go-shortener/controller"
-	"github.com/mustafasegf/go-shortener/repository"
-	"github.com/mustafasegf/go-shortener/service"
+	"github.com/mustafasegf/go-shortener/links"
 )
 
 type Route struct {
@@ -15,14 +15,14 @@ func (s *Server) setupRouter() {
 	s.router.LoadHTMLGlob("templates/*")
 	s.router.Static("/static", "./static")
 
-	linkRepo := repository.NewLinkRepo(s.db, s.rdb)
-	linkSvc := service.NewLinkService(linkRepo)
-	linkCtlr := controller.NewLinkController(linkSvc)
-
-	staticCtlr := controller.NewStaticController()
+	linkRepo := links.NewRepo(s.db, s.rdb)
+	linkSvc := links.NewService(linkRepo)
+	linkCtlr := links.NewController(linkSvc)
 
 	s.router.GET("/:url", linkCtlr.Redirect)
-	s.router.GET("/", staticCtlr.Index)
+	s.router.GET("/", func(ctx *gin.Context) {
+		ctx.HTML(http.StatusOK, "index.html", "")
+	})
 
 	api := s.router.Group("/api")
 	link := api.Group("/link")

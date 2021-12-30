@@ -24,9 +24,6 @@ func (s *Server) setupRouter() {
 		ctx.HTML(http.StatusOK, "index.html", "")
 	})
 
-	api := s.router.Group("/api")
-	link := api.Group("/link")
-
-	link.POST("create", linkCtlr.CreateLink)
+	s.router.POST("/api/link/create", linkCtlr.CreateLink)
 
 }

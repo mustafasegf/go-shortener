@@ -12,8 +12,6 @@ services:
       POSTGRES_DB: ${DB_NAME}
     networks:
       - shortener
-    ports:
-      - "5432:5432"
 
   redis:
     container_name: shortener-redis
@@ -25,22 +23,22 @@ services:
     networks:
       - shortener
 
-  # server:
-  #   container_name: server-go-shortener
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "${SERVER_PORT}:${SERVER_PORT}"
-  #   depends_on:
-  #     - db
-  #     - redis
-  #   environment:
-  #     - DB_HOST=db
-  #     - REDIS_HOST=redis
-  #   networks:
-  #     - shortener
-  #   command: ["/app/main"]
+  server:
+    container_name: server-go-shortener
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    networks:
+      - shortener
+    command: [ "/app/main" ]
 
 volumes:
   db-data:

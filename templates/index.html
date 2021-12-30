@@ -3,28 +3,42 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Go Shotener</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="screen" href="static/style.css" />
-    <link rel="shortcut icon" type="image/jpg" href="static/favicon.ico"/>
+
+    <title>Go Shotener</title>
+
     <script src="static/script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@forevolve/bootstrap-dark@1.0.0/dist/css/bootstrap-dark.min.css"
+    />
   </head>
   <body>
-    <div id="experience">
-      <div class="content">
-        <div class="align-center space">
-          <h1>Simple Url Shortener</h1>
-          <p>
-            please don't use this for production, this only suffice as fun project 
-          </p>
-          <form action="" id="form" method="POST" onsubmit="addUrl(event);">
-            <label for="long_url">Long url</label>
-            <input type="text" name="long_url" />
-            <label for="short_url">Short url</label>
-            <input type="text" name="short_url" />
-            <input type="submit" name="submit" />
-          </form>
-          <h5 id="status"></h5>
+    <div class="container d-flex vh-100">
+      <div class="row align-self-center w-100">
+        <div class="col-6 mx-auto">
+          <div>
+            <h1>Simple Url Shortener</h1>
+            <p>
+              please don't use this for production, this only suffice as fun project
+            </p>
+            <form action="" id="form" method="POST" onsubmit="addUrl(event);">
+              <div class="form-group">
+                <label for="long_url">Long url</label>
+                <input type="text" name="long_url" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="short_url">Short url</label>
+                <input type="text" name="short_url" class="form-control" />
+              </div>
+
+              <input class="btn btn-dark" type="submit" name="submit" />
+            </form>
+            <h5 id="status"></h5>
+          </div>
         </div>
       </div>
     </div>

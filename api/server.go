@@ -31,4 +31,4 @@ func (s *Server) RunServer() {
 	s.setupRouter()
 	serverString := fmt.Sprintf(":%s", s.config.ServerPort)
 	s.router.Run(serverString)
-}
+} 

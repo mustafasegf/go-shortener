@@ -25,6 +25,7 @@ services:
 
   server:
     container_name: server-go-shortener
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile

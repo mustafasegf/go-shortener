@@ -1,64 +1,64 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<html data-theme="dracula">
 
-    <title>Go Shotener</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <script src="static/script.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <title>Go Shotener</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@forevolve/bootstrap-dark@1.0.0/dist/css/bootstrap-dark.min.css"
-    />
+  <script src="static/script.js"></script>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css"
-    />
-  </head>
-  <body>
-    <style>
-      .github-fork-ribbon:before {
-        background-color: #333;
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.22.0/dist/full.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+</head>
+
+<body>
+  <style>
+    .github-fork-ribbon:before {
+      background-color: #333;
+
+      body: {
+        font-family: 'Poppins', sans-serif;
       }
-    </style>
-    <a
-      class="github-fork-ribbon"
-      target="_blank"
-      href="https://github.com/mustafasegf/go-shortener"
-      data-ribbon="Check on Github"
-      title="Fork me on GitHub"
-      >Check on Github</a
-    >
-    <div class="container d-flex vh-100">
-      <div class="row align-self-center w-100">
-        <div class="col-6 mx-auto">
-          <div>
-            <h1>Simple Url Shortener</h1>
-            <p>
-              please don't use this for production, this only suffice as fun project
-            </p>
-            <form action="" id="form" method="POST" onsubmit="addUrl(event);">
-              <div class="form-group">
-                <label for="long_url">Long url</label>
-                <input type="text" name="long_url" class="form-control" />
-              </div>
+    }
+  </style>
+  <a 
+    class="github-fork-ribbon"
+    target="_blank"
+    href="https://github.com/mustafasegf/go-shortener"
+    data-ribbon="Check on Github"
+    title="Fork me on GitHub">
+      Check on Github
+    </a>
 
-              <div class="form-group">
-                <label for="short_url">Short url</label>
-                <input type="text" name="short_url" class="form-control" />
-              </div>
+  <div class="mt-16 mb-12 text-2xl sm:text-5xl lg:text-5xl font-semibold bg-secondary-focus text-base-content w-full rounded p-4">
+    <h1 class="flex flex-col mx-8 sm:mx-12 md:mx-24 lg:mx-28 xl:mx-auto xl:max-w-6xl drop-shadow-lg">Simple Url Shortener</h1>
+  </div>
 
-              <input class="btn btn-dark" type="submit" name="submit" />
-            </form>
-            <h5 id="status"></h5>
-          </div>
-        </div>
+  <div class="flex flex-col mx-8 sm:mx-12 md:mx-24 lg:mx-28 xl:mx-auto xl:max-w-6xl text-xl">
+    <!-- <h3 class="text-lg lg:text-xl italic mb-8">Please don't use this for production, this only suffice as fun project</h3> -->
+    <form action="" id="form" method="POST" onsubmit="addUrl(event);">
+      <div class="form-control mb-4">
+        <label class="mb-2" for="long_url">Long url</label>
+        <input type="text" name="long_url" class="input input-bordered input-secondary" />
       </div>
-    </div>
-  </body>
+
+      <div class="form-control mb-8">
+        <label class="mb-2" for="short_url">Short url</label>
+        <input type="text" name="short_url" class="input input-bordered input-secondary" />
+      </div>
+
+      <input class="btn btn-active btn-info" type="submit" name="submit" />
+    </form>
+    <h5 id="status"></h5>
+</body>
+
 </html>

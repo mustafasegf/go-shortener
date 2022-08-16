@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	"github.com/mustafasegf/go-shortener/api"
+	"github.com/mustafasegf/go-shortener/entity"
 	"github.com/mustafasegf/go-shortener/util"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -28,6 +29,11 @@ func main() {
 	if err != nil {
 		log.Fatal("canot load db: ", err)
 	}
+
+  err = db.AutoMigrate(&entity.LinkModel{})
+  if err != nil {
+    log.Fatal("cannot migrate db: ", err)
+  }
 
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", config.RedisHost, config.RedisPort),

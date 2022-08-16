@@ -12,3 +12,7 @@ type LinkModel struct {
 	LongUrl  string `gorm:"column:long_url;type:varchar(2048)"`
 	ShortUrl string `gorm:"column:short_url;type:varchar(255)"`
 }
+
+func (LinkModel) TableName() string {
+  return "link"
+}
